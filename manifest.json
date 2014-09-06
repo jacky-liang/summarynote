@@ -1,0 +1,9 @@
+{
+    "name": "SummaryNote",
+    "version": "0.0.1",
+    "manifest_version": 1,
+    "description" : "Summarize Articles and Save to Evernote!",
+    "content_scripts": [{
+        "js": ["js/jquery-2.1.1.js", "js/content.js"]
+    }]
+}
