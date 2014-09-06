@@ -3,7 +3,7 @@
  */
 
 /**
- * Description
+ * Takes in an array of paragraphs and runs analysis on the text and returns an array of sentences listed in order of decreasing relevance
  *
  * @param paragraphs  an array of the paragraphs that make up the text
  * @return            an array of the sentences that make up the text
