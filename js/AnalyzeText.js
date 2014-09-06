@@ -3,10 +3,10 @@
  */
 
 /**
- * Takes in an array of paragraphs and runs analysis on the text and returns an array of sentences listed in order of decreasing relevance
+ * Takes in an array of paragraphs and runs analysis on the text and returns an array of sentences listed in order of decreasing relevance, with a limit of 1000 characters
  *
- * @param paragraphs  an array of the paragraphs that make up the text
- * @return            an array of the sentences that make up the text
+ * @param paragraphs    an array of the paragraphs that make up the text
+ * @return              an array of the most important sentences that make up the text
  */
 
 // FINAL VARIABLES
@@ -16,8 +16,10 @@ var SENTENCE_LENGTH_FACTOR = 300;                                               
 var ALCHEMY_URL_T = "http://access.alchemyapi.com/calls/url/URLGetText";                // Alchemy URL
 var ALCHEMY_URL_K = "http://access.alchemyapi.com/calls/url/URLGetRankedKeywords";      // Alchemy URL
 var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                               // API Key for Alchemy API
-var keywordsArray = [];                                                                           // Array of keywords
+var keywordsArray = [];                                                                 // Array of keywords
 var sortedArray = [];                                                                   // Array of sentences in order of decreasing relevance
+var notes = [];                                                                         // Array of most important notes
+var CHARACTER_LIMIT = 1000;                                                             // Character limit for returning notes
 
 function analyzeText(website){
     $.get(ALCHEMY_URL_T, {apikey: API_KEY, url: website, outputMode: "json"}, function(dataText){
@@ -29,9 +31,11 @@ function analyzeText(website){
             var paragraphs = createParagraphArray(x);
             var sentences = createSentenceArray(paragraphs);
             sortedArray = sortArray(sentences);
-            console.log(sortedArray);
+            createNoteList(sortedArray);
+            console.log(notes);
         });
     });
+    return notes;
 }
 
 function createParagraphArray(text){
@@ -79,15 +83,25 @@ function sortArray(arr){
     return arr;
 }
 
+function createNoteList(array){
+    var characters = 0;
+    for (var i = 0; i < array.length; i ++){
+        var currentSentence = array[i][0];
+        if (characters < CHARACTER_LIMIT)
+            notes.push(currentSentence);
+        characters += currentSentence.length;
+    }
+}
+
+
 
 
 // TEST ENVIRONMENT
-
 var url1 = "http://www.nytimes.com/2014/09/06/world/europe/nato-summit.html?partner=rss&emc=rss";
 var url2 = "http://nyti.ms/1pxmTUw";
 var url3 = "http://time.com/3281851/obama-immigration-midterms-elections/";
 var url4 = "http://sports.yahoo.com/blogs/nba-ball-dont-lie/team-usa-handles-mexico-with-ease--heads-to-fiba-world-cup-quarterfinals-162855502.html";
-var url5 = "http://en.wikipedia.org/wiki/Evernote";         // Evernote Wikipedia Article
+var url5 = "http://en.wikipedia.org/wiki/Evernote";                                     // Evernote Wikipedia Article
 var url6 = "http://www.economist.com/blogs/buttonwood/2012/07/economic-history";        // Econ 1 Article
 var answer = analyzeText(url6);
 console.log(answer);
