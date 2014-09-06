@@ -1,0 +1,187 @@
+<!DOCTEST html>
+<html>
+<head>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500,300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<a href="#" class="button">Summarize page!</a>
+<div class="stripe" id="progressbar">
+	<div class="animate"></div>
+</div>
+
+<div id="added">
+	<br/>
+	<img src="http://www.clker.com/cliparts/2/k/n/l/C/Q/transparent-green-checkmark-md.png" id="checkmark"> Summary has been added to your Evernote notebook '<b>SummaryNote<b>'.
+</div>
+</body>
+<style>
+body {
+	width: 500px;
+	height: 300px;
+}
+#added {
+	font-family: Roboto, sans-serif;
+	font-size: 12px;
+	font-weight: 300;
+	text-align: center;
+	display: none;
+}
+#checkmark {
+	width:10px;
+	height:10px;
+}
+#progressbar {
+	background-color: #c1c4b7;
+	border-radius: 10px;
+	padding: 0px;
+	width: 226px;
+	height: 37px;
+	display: none;
+	margin-left: 137px;
+}
+
+#progressbar > div {
+	background-color: #98c11e;
+	width: 90%;
+	height: 95%;
+	border-radius: 10px;
+	display: none;
+}
+
+.button {
+	-webkit-box-shadow:inset 0px 1px 0px 0px #3dc21b;
+	box-shadow:inset 0px 1px 0px 0px #3dc21b;
+	background-color:#98c11e;
+	-webkit-border-radius:9px;
+	border-radius:9px;
+	border:1px solid #94b228;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'Roboto', sans-serif;
+	font-size:18px;
+	font-weight: 300;
+	padding:7px 43px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+	margin-left:137px;
+}
+.button:hover {
+	background-color:#94b228;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+.stripe > div {
+   background-size: 30px 30px;
+    
+   background-image: -moz-linear-gradient(-45deg, 
+      rgba(255,255,255,0.15) 0%, 
+      rgba(255,255,255,0.15) 25%, 
+      rgba(255,255,255,0) 25%, 
+      rgba(255,255,255,0) 50%, 
+      rgba(255,255,255,0.15) 50%, 
+      rgba(255,255,255,0.15) 75%, 
+      rgba(255,255,255,0) 75%, 
+      rgba(255,255,255,0) 100%);
+   background-image: -webkit-gradient(linear, left top, right bottom, 
+      color-stop(0%,rgba(255,255,255,0.2)), 
+      color-stop(25%,rgba(255,255,255,0.2)), 
+      color-stop(25%,rgba(255,255,255,0)), 
+      color-stop(50%,rgba(255,255,255,0)), 
+      color-stop(50%,rgba(255,255,255,0.2)), 
+      color-stop(75%,rgba(255,255,255,0.2)),
+      color-stop(75%,rgba(255,255,255,0)),
+      color-stop(100%,rgba(255,255,255,0)));
+   background-image: -webkit-linear-gradient(-45deg, 
+      rgba(255,255,255,0.3) 0%,
+      rgba(255,255,255,0.3) 25%,
+      rgba(255,255,255,0) 25%,
+      rgba(255,255,255,0) 50%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0.3) 75%,
+      rgba(255,255,255,0) 75%,
+      rgba(255,255,255,0) 100%);
+   background-image: -o-linear-gradient(-45deg, 
+      rgba(255,255,255,0.15) 0%,
+      rgba(255,255,255,0.15) 25%,
+      rgba(255,255,255,0) 25%,
+      rgba(255,255,255,0) 50%,
+      rgba(255,255,255,0.15) 50%,
+      rgba(255,255,255,0.15) 75%,
+      rgba(255,255,255,0) 75%,
+      rgba(255,255,255,0) 100%);
+   background-image: -ms-linear-gradient(-45deg, 
+      rgba(255,255,255,0.15) 0%,
+      rgba(255,255,255,0.15) 25%,
+      rgba(255,255,255,0) 25%,
+      rgba(255,255,255,0) 50%,
+      rgba(255,255,255,0.15) 50%,
+      rgba(255,255,255,0.15) 75%,
+      rgba(255,255,255,0) 75%,
+      rgba(255,255,255,0) 100%);
+   background-image: linear-gradient(135deg, 
+      rgba(255,255,255,0.15) 0%,
+      rgba(255,255,255,0.15) 25%,
+      rgba(255,255,255,0) 25%,
+      rgba(255,255,255,0) 50%,
+      rgba(255,255,255,0.15) 50%,
+      rgba(255,255,255,0.15) 75%,
+      rgba(255,255,255,0) 75%,
+      rgba(255,255,255,0) 100%);
+}
+
+.animate {
+   animation: progress 2s linear infinite;
+   -moz-animation: progress 2s linear infinite;
+   -webkit-animation: progress 2s linear infinite;
+   -ms-animation: progress 2s linear infinite;
+   -o-animation: progress 2s linear infinite;
+}
+ 
+@-webkit-keyframes progress {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -60px -60px;
+  }
+}
+@-moz-keyframes progress {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -60px -60px;
+  }
+}
+@-ms-keyframes progress {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -60px -60px;
+  }
+}
+@-o-keyframes progress {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -60px -60px;
+  }
+}
+@keyframes progress {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -60px -60px;
+  }
+}
+</style>
+<script type='text/javascript' src='js/jquery-2.1.1.js'></script>
+<script type='text/javascript' src='js/popup.js'></script>
+</html>
