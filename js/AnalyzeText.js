@@ -10,30 +10,34 @@
  */
 
 // FINAL VARIABLES
-var FIRST_SENTENCE = 10;                                                     // First Sentence Score Increase
-var TOPIC_SENTENCE = 1;                                                     // First Sentence Score Increase
-var ALCHEMY_URL = "http://access.alchemyapi.com/calls/url/URLGetText";      // Alchemy URL
-var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                   // API Key for Alchemy API
-var sortedArray = [];                                                       // Array of sentences in order of decreasing relevance
+var FIRST_SENTENCE = 3;                                                                 // First Sentence Score Increase
+var TOPIC_SENTENCE = 1;                                                                 // First Sentence Score Increase
+var ALCHEMY_URL_T = "http://access.alchemyapi.com/calls/url/URLGetText";                // Alchemy URL
+var ALCHEMY_URL_K = "http://access.alchemyapi.com/calls/url/URLGetRankedKeywords";      // Alchemy URL
+var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                               // API Key for Alchemy API
+var keywordsArray = [];                                                                           // Array of keywords
+var sortedArray = [];                                                                   // Array of sentences in order of decreasing relevance
 
 function analyzeText(website){
-    $.get(ALCHEMY_URL, {apikey: API_KEY,url: website, outputMode: "json"}, function(data){
-        var x = data.text;
-        var paragraphs = createParagraphArray(x);
-        var keywords = getKeyWords(website);
-        var sentences = createSentenceArray(paragraphs, keywords);
-        sortedArray = sortArray(sentences);
-        console.log(sortedArray);
+    $.get(ALCHEMY_URL_T, {apikey: API_KEY, url: website, outputMode: "json"}, function(dataText){
+        $.get(ALCHEMY_URL_K,{apikey: API_KEY, url: website, outputMode: "json"}, function(data){
+            for(var i = 0; i<50; i++){
+                keywordsArray.push([data['keywords'][i]['text'], parseFloat(data['keywords'][i]['relevance'])]);
+            }
+            var x = dataText.text;
+            var paragraphs = createParagraphArray(x);
+            var sentences = createSentenceArray(paragraphs);
+            sortedArray = sortArray(sentences);
+            console.log(sortedArray);
+        });
     });
 }
 
 function createParagraphArray(text){
-    var paragraphArray = [];
-    paragraphArray = text.split("\n");
-    return paragraphArray;
+    return text.split("\n");
 }
 
-function createSentenceArray (paragraphs, keywords){          // creates a 2D array of sentences with each array containing a sentence and its repective score
+function createSentenceArray (paragraphs){          // creates a 2D array of sentences with each array containing a sentence and its repective score
     var sentenceArray = [];
     var sentencePosition = 0;
 
@@ -43,12 +47,12 @@ function createSentenceArray (paragraphs, keywords){          // creates a 2D ar
             var currentSentence = tempSentenceArray[sentenceNumber];
             if (currentSentence != ""){
                 var score = 0;
-                if (sentencePosition === 0 || sentencePosition === 1)         // 1st sentence of article receives additional points
+                if (sentencePosition === 0 || sentencePosition === 1)         // 1st 2 sentences of article receives additional points
                     score += FIRST_SENTENCE;
                 if (sentenceNumber === 0)           // 1st sentence of each paragraph receives additional points
                     score += TOPIC_SENTENCE;
-                score += scoreSentence(currentSentence, keywords);
-                sentenceArray.push([currentSentence, score, sentencePosition])
+                score += scoreSentence(currentSentence);
+                sentenceArray.push([currentSentence, score, sentencePosition]);
                 sentencePosition ++;
             }
         }
@@ -56,19 +60,14 @@ function createSentenceArray (paragraphs, keywords){          // creates a 2D ar
     return sentenceArray;
 }
 
-function scoreSentence (sentence, keywords){                  // helper function to calculate the score of the sentence
+function scoreSentence (sentence){                  // helper function to calculate the score of the sentence
     var score = 0;
-    for (var i = 0; i < keywords.length; i++){
-        var targetKeyWord = keywords[i];
+    for (var i = 0; i < keywordsArray.length; i++){
+        var targetKeyWord = keywordsArray[i];
         if (sentence.indexOf(targetKeyWord[0]) != -1)
             score += targetKeyWord[1];
     }
     return score;
-}
-
-function getKeyWords(url){                             // returns array of key words
-    url = "";
-    return [["NATO",.95], ["Ukraine", .86], ["summit meeting", .79]];
 }
 
 function sortArray(arr){
@@ -83,8 +82,8 @@ function sortArray(arr){
 // TEST ENVIRONMENT
 
 var url1 = "http://www.nytimes.com/2014/09/06/world/europe/nato-summit.html?partner=rss&emc=rss";
-var url2 = "http://nyti.ms/1pxmTUw";
-var url3 = "http://time.com/3281851/obama-immigration-midterms-elections/";
+//var url2 = "http://nyti.ms/1pxmTUw";
+//var url3 = "http://time.com/3281851/obama-immigration-midterms-elections/";
 var answer = analyzeText(url1);
 console.log(answer);
 
