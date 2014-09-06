@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description" : "Summarize Articles and Save to Evernote!",
     "content_scripts": [{
-        "matches":["http://*/*"],
-        "js": ["js/jquery-2.1.1.js"]
+        "matches":["http://*/*","https://*/*"],
+        "js": ["js/jquery-2.1.1.js","js/getText.js"]
     }]
 }
