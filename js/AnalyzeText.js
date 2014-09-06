@@ -13,27 +13,39 @@ var FIRST_SENTENCE = 1;             // First Sentence Score Increase to be in ma
 
 function createSentenceArray (paragraphs){          // creates a 2D array of sentences with each array containing a sentence and its repective score
     var sentenceArray = [];
+    var keywords = getKeyWords();
+
     for (var block = 0; block < paragraphs.length; block++){
         var tempSentenceArray = paragraphs[block].split(/[.?;!]/);
         for (var sentenceNumber = 0; sentenceNumber < tempSentenceArray.length; sentenceNumber++){
             var currentSentence = tempSentenceArray[sentenceNumber];
             if (currentSentence != ""){
                 var score = 0;
-                if (sentenceNumber === 0)
+                if (sentenceNumber === 0)           // 1st sentence of paragraph receives additional points
                     score += FIRST_SENTENCE;
-                score += scoreSentence(currentSentence);
+                score += scoreSentence(currentSentence, keywords);
                 sentenceArray.push([currentSentence, score])
             }
         }
     }
     return sentenceArray;
-}/**
+}
+/**
  * Created by JMBros on 9/5/14.
  */
 
-function scoreSentence (sentence){                  // helper function to calculate the score of the sentence
-    sentence += "";
-    return 0;
+function scoreSentence (sentence, keywords){                  // helper function to calculate the score of the sentence
+    var score = 0;
+    for (var i = 0; i < keywords.length; i++){
+        var targetKeyWord = keywords[i];
+        if (sentence.indexOf(targetKeyWord[0]) != -1)
+            score += targetKeyWord[1];
+    }
+    return score;
+}
+
+function getKeyWords(){                             // returns array of key words
+    return [["NATO",.95], ["Ukraine", .86], ["summit meeting", .79]];
 }
 
 // TEST ENVIRONMENT
