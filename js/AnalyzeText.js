@@ -9,11 +9,33 @@
  * @return            an array of the sentences that make up the text
  */
 
-var FIRST_SENTENCE = 1;             // First Sentence Score Increase to be in master branch *******************************************************
+// FINAL VARIABLES
+var FIRST_SENTENCE = 10;                                                     // First Sentence Score Increase
+var TOPIC_SENTENCE = 1;                                                     // First Sentence Score Increase
+var ALCHEMY_URL = "http://access.alchemyapi.com/calls/url/URLGetText";      // Alchemy URL
+var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                   // API Key for Alchemy API
+var sortedArray = [];                                                       // Array of sentences in order of decreasing relevance
 
-function createSentenceArray (paragraphs){          // creates a 2D array of sentences with each array containing a sentence and its repective score
+function analyzeText(website){
+    $.get(ALCHEMY_URL, {apikey: API_KEY,url: website, outputMode: "json"}, function(data){
+        var x = data.text;
+        var paragraphs = createParagraphArray(x);
+        var keywords = getKeyWords(website);
+        var sentences = createSentenceArray(paragraphs, keywords);
+        sortedArray = sortArray(sentences);
+        console.log(sortedArray);
+    });
+}
+
+function createParagraphArray(text){
+    var paragraphArray = [];
+    paragraphArray = text.split("\n");
+    return paragraphArray;
+}
+
+function createSentenceArray (paragraphs, keywords){          // creates a 2D array of sentences with each array containing a sentence and its repective score
     var sentenceArray = [];
-    var keywords = getKeyWords();
+    var sentencePosition = 0;
 
     for (var block = 0; block < paragraphs.length; block++){
         var tempSentenceArray = paragraphs[block].split(/[.?;!]/);
@@ -21,18 +43,18 @@ function createSentenceArray (paragraphs){          // creates a 2D array of sen
             var currentSentence = tempSentenceArray[sentenceNumber];
             if (currentSentence != ""){
                 var score = 0;
-                if (sentenceNumber === 0)           // 1st sentence of paragraph receives additional points
+                if (sentencePosition === 0 || sentencePosition === 1)         // 1st sentence of article receives additional points
                     score += FIRST_SENTENCE;
+                if (sentenceNumber === 0)           // 1st sentence of each paragraph receives additional points
+                    score += TOPIC_SENTENCE;
                 score += scoreSentence(currentSentence, keywords);
-                sentenceArray.push([currentSentence, score])
+                sentenceArray.push([currentSentence, score, sentencePosition])
+                sentencePosition ++;
             }
         }
     }
     return sentenceArray;
 }
-/**
- * Created by JMBros on 9/5/14.
- */
 
 function scoreSentence (sentence, keywords){                  // helper function to calculate the score of the sentence
     var score = 0;
@@ -44,12 +66,26 @@ function scoreSentence (sentence, keywords){                  // helper function
     return score;
 }
 
-function getKeyWords(){                             // returns array of key words
+function getKeyWords(url){                             // returns array of key words
+    url = "";
     return [["NATO",.95], ["Ukraine", .86], ["summit meeting", .79]];
 }
 
-// TEST ENVIRONMENT
-var test = ["NEWPORT, Wales — NATO struggled to find responses to new challenges as it concluded its summit meeting here on Friday, announcing limited steps to deter Russia in Eastern Europe and starting to marshal broader international support to confront radical Islamists in the Middle East.","The alliance said it would establish a rapid-reaction force with an essentially permanent presence in Eastern Europe and would enhance military cooperation with Ukraine.","But the limits of the alliance were visible, too. The United States and Britain used the meeting to try to advance their own emerging policies, especially toward the spread of the Islamic State in Iraq and Syria, while most members shied away from specific commitments to increase military spending."];
-var answer = createSentenceArray (test);
+function sortArray(arr){
+    arr = arr.sort(function(a,b) {
+        return b[1] - a[1];
+    });
+    return arr;
+}
 
+
+
+// TEST ENVIRONMENT
+
+var url1 = "http://www.nytimes.com/2014/09/06/world/europe/nato-summit.html?partner=rss&emc=rss";
+var url2 = "http://nyti.ms/1pxmTUw";
+var url3 = "http://time.com/3281851/obama-immigration-midterms-elections/";
+var answer = analyzeText(url1);
 console.log(answer);
+
+
