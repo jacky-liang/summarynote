@@ -23,7 +23,7 @@ var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                       
 // Global Variables
 var keywordsArray = [];                                                                 // Array of keywords
 var sortedArray = [];                                                                   // Array of sentences in order of decreasing relevance
-var notes = [];                                                                         // Array of most important notes
+var notes = [];                                                                         // Array of the most important notes
 
 function analyzeText(website){
     $.get(ALCHEMY_URL_T, {apikey: API_KEY, url: website, outputMode: "json"}, function(dataText){
@@ -51,7 +51,7 @@ function createSentenceArray (paragraphs){      // creates a 2D array of sentenc
     var sentencePosition = 0;
 
     for (var block = 0; block < paragraphs.length; block++){
-        var tempSentenceArray = paragraphs[block].split(/[.?;!]/);
+        var tempSentenceArray = paragraphs[block].split(/[?;!.]/);
         for (var sentenceNumber = 0; sentenceNumber < tempSentenceArray.length; sentenceNumber++){
             var currentSentence = tempSentenceArray[sentenceNumber].trim();
             if (currentSentence != ""){
@@ -102,12 +102,12 @@ function createNoteList(array){
 
 // TEST ENVIRONMENT
 var url1 = "http://www.nytimes.com/2014/09/06/world/europe/nato-summit.html?partner=rss&emc=rss";
-var url2 = "http://nyti.ms/1pxmTUw";
+var url2 = "http://www.realtor.org/news-releases/2014/08/existing-home-sales-continue-to-climb-in-july";    // Business Article
 var url3 = "http://time.com/3281851/obama-immigration-midterms-elections/";
 var url4 = "http://sports.yahoo.com/blogs/nba-ball-dont-lie/team-usa-handles-mexico-with-ease--heads-to-fiba-world-cup-quarterfinals-162855502.html";
 var url5 = "http://en.wikipedia.org/wiki/Evernote";                                     // Evernote Wikipedia Article
 var url6 = "http://www.economist.com/blogs/buttonwood/2012/07/economic-history";        // Econ 1 Article
-var answer = analyzeText(url6);
+var answer = analyzeText(url2);
 console.log(answer);
 
 
