@@ -20,10 +20,12 @@ function createSentenceArray (paragraphs){
         //console.log(tempSentenceArray);
         for (var sentenceNumber = 0; sentenceNumber < tempSentenceArray.length; sentenceNumber++){
             //console.log(tempSentenceArray[sentenceNumber]);
-            var score = 0;
-            if (sentenceNumber === 0)
-                score += FIRST_SENTENCE;
-            sentenceArray.push([tempSentenceArray[sentenceNumber], score])
+            if (tempSentenceArray[sentenceNumber] != ""){
+                var score = 0;
+                if (sentenceNumber === 0)
+                    score += FIRST_SENTENCE;
+                sentenceArray.push([tempSentenceArray[sentenceNumber], score])
+            }
         }
     }
     return sentenceArray;
