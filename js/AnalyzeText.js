@@ -13,13 +13,17 @@
 var FIRST_SENTENCE = 2;                                                                 // First Sentence Score Increase
 var TOPIC_SENTENCE = 1;                                                                 // First Sentence Score Increase
 var SENTENCE_LENGTH_FACTOR = 300;                                                       // Sentence Length Factor (sentence length / factor is calculated)
+var CHARACTER_LIMIT = 1000;                                                             // Character limit for returning notes
+
+// Alchemy Variables
 var ALCHEMY_URL_T = "http://access.alchemyapi.com/calls/url/URLGetText";                // Alchemy URL
 var ALCHEMY_URL_K = "http://access.alchemyapi.com/calls/url/URLGetRankedKeywords";      // Alchemy URL
 var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                               // API Key for Alchemy API
+
+// Global Variables
 var keywordsArray = [];                                                                 // Array of keywords
 var sortedArray = [];                                                                   // Array of sentences in order of decreasing relevance
 var notes = [];                                                                         // Array of most important notes
-var CHARACTER_LIMIT = 1000;                                                             // Character limit for returning notes
 
 function analyzeText(website){
     $.get(ALCHEMY_URL_T, {apikey: API_KEY, url: website, outputMode: "json"}, function(dataText){
@@ -49,7 +53,7 @@ function createSentenceArray (paragraphs){      // creates a 2D array of sentenc
     for (var block = 0; block < paragraphs.length; block++){
         var tempSentenceArray = paragraphs[block].split(/[.?;!]/);
         for (var sentenceNumber = 0; sentenceNumber < tempSentenceArray.length; sentenceNumber++){
-            var currentSentence = tempSentenceArray[sentenceNumber];
+            var currentSentence = tempSentenceArray[sentenceNumber].trim();
             if (currentSentence != ""){
                 var score = 0;
                 if (sentencePosition === 0 || sentencePosition === 1)       // 1st 2 sentences of article receives additional points
