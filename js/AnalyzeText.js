@@ -18,7 +18,7 @@ var CHARACTER_LIMIT = 1000;                                                     
 // Alchemy Variables
 var ALCHEMY_URL_T = "http://access.alchemyapi.com/calls/url/URLGetText";                // Alchemy URL
 var ALCHEMY_URL_K = "http://access.alchemyapi.com/calls/url/URLGetRankedKeywords";      // Alchemy URL
-var API_KEY = "8e895965b26a429e8571eb42821dce8f231697dd";                               // API Key for Alchemy API
+var API_KEY = "dd1cf2e76c12f5b949f04c773e74f38114714f70";                               // API Key for Alchemy API
 
 // Global Variables
 var keywordsArray = [];                                                                 // Array of keywords
@@ -51,7 +51,7 @@ function createSentenceArray (paragraphs){      // creates a 2D array of sentenc
     var sentencePosition = 0;
 
     for (var block = 0; block < paragraphs.length; block++){
-        var tempSentenceArray = paragraphs[block].split(/[?;!.]/);
+        var tempSentenceArray = paragraphs[block].replace(';','#$').replace('!','#$').replace('?','#$').replace('. ','#$').split('#$');
         for (var sentenceNumber = 0; sentenceNumber < tempSentenceArray.length; sentenceNumber++){
             var currentSentence = tempSentenceArray[sentenceNumber].trim();
             if (currentSentence != ""){
