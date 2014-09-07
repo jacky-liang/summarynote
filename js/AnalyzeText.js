@@ -51,7 +51,7 @@ function createSentenceArray (paragraphs){      // creates a 2D array of sentenc
     var sentencePosition = 0;
 
     for (var block = 0; block < paragraphs.length; block++){
-        var tempSentenceArray = paragraphs[block].replace(';','#$').replace('!','#$').replace('?','#$').replace('. ','#$').split('#$');
+        var tempSentenceArray = paragraphs[block].split(/[.;!?](?![0-9])/);
         for (var sentenceNumber = 0; sentenceNumber < tempSentenceArray.length; sentenceNumber++){
             var currentSentence = tempSentenceArray[sentenceNumber].trim();
             if (currentSentence != ""){
