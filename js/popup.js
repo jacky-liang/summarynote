@@ -1,16 +1,18 @@
-
-
-$('.button').click(function(){
-	$('.button').hide();
-	$('#progressbar').show();
-	$('#progressbar > div').show();
-	$('#added').hide();
+$('#login').click(function(){
+	$('#login').hide();
+	$('#summarize').css('display', 'inline-block');
 	}
 );
 
+$('#summarize').click(function(){
+	$('#summarize').hide();
+	$('#progressbar').show();
+	$('#progressbar > div').show();
+})
+
 $('#progressbar').click(function(){
 	$('#progressbar').hide();
-	$('.button').show();
+	$('#summarize').show();
 	$('#added').show(100);
 
 })
