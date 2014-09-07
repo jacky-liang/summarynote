@@ -4,7 +4,8 @@
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500,300' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<a href="#" class="button">Summarize page!</a>
+<a href="#" class="button" id="login">Log into Evernote</a>
+<a href="#" class="button" id="summarize">Summarize page!</a>
 <div class="stripe" id="progressbar">
 	<div class="animate"></div>
 </div>
@@ -13,7 +14,7 @@
 	<br/>
 	<img src="http://www.clker.com/cliparts/2/k/n/l/C/Q/transparent-green-checkmark-md.png" id="checkmark"> Summary has been added to your Evernote notebook '<b>SummaryNote<b>'.
 </div>
-<div id="login-container">
+<!-- <div id="login-container">
 	Sign into your Evernote account to use SummaryNote.
 <br/><br/>
 <form name="login" action="" method="">
@@ -22,7 +23,7 @@
 	<input type="password" name="password" placeholder="Password">
 	<br/>
 	<input type="submit" value="Log in">
-</form>
+</form> -->
 </body>
 <style>
 body {
@@ -36,6 +37,9 @@ body {
 	background-color: #EEEEEE;
 }
 
+#summarize {
+	display: none;
+}
 form {
 	left: 34px;
 }
